@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/projects";
+const API = "https://taskflow1-1jps.onrender.com/api/projects";
 
 const config = () => ({
   headers: {

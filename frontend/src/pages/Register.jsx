@@ -15,7 +15,7 @@ function Register() {
 
     try {
 
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("https://taskflow1-1jps.onrender.com/api/auth/register", {
 
         name,
         email,

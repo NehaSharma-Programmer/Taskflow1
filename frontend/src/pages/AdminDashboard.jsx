@@ -24,7 +24,7 @@ function AdminDashboard() {
 
 
       const res = await axios.get(
-        "http://localhost:5000/api/admin/dashboard",
+        "https://taskflow1-1jps.onrender.com/api/admin/dashboard",
         {
           headers: {
             Authorization: `Bearer ${token}`,

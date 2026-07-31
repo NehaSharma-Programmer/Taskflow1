@@ -44,7 +44,7 @@ function Projects() {
 
         const res = await axios.get(
 
-          "http://localhost:5000/api/admin/projects",
+          "https://taskflow1-1jps.onrender.com/api/admin/projects",
 
           {
             headers:{
