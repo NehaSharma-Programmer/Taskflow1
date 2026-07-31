@@ -1,0 +1,297 @@
+
+.dashboard{
+
+    display:flex;
+    min-height:100vh;
+    background:#f0fdf4;
+
+}
+
+
+
+/* Main Area */
+
+.main-content{
+
+    margin-left:270px;
+    width:100%;
+    padding:40px;
+
+}
+
+
+
+/* Header */
+
+.header{
+
+    background:
+    linear-gradient(
+        135deg,
+        #166534,
+        #16a34a,
+        #10b981
+    );
+
+    color:white;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    box-shadow:
+    0 15px 35px rgba(22,163,74,.25);
+
+    margin-bottom:35px;
+
+    animation:slideDown .6s ease;
+
+}
+
+
+
+.header h1{
+
+    color:white;
+
+    font-size:38px;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.header p{
+
+    color:#dcfce7;
+
+    font-size:17px;
+
+}
+
+
+
+
+
+/* Cards */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(240px,1fr));
+
+    gap:25px;
+
+}
+
+
+
+
+
+.card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.08);
+
+    transition:.35s;
+
+    cursor:pointer;
+
+}
+
+
+
+
+
+.card:hover{
+
+
+    transform:
+    translateY(-10px);
+
+
+    box-shadow:
+    0 20px 35px rgba(22,163,74,.20);
+
+
+}
+
+
+
+
+
+
+
+/* Icons */
+
+.card-icon{
+
+    width:65px;
+
+    height:65px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:18px;
+
+    font-size:32px;
+
+    background:#dcfce7;
+
+}
+
+
+
+
+
+.card-icon.pending{
+
+    background:#fef9c3;
+
+}
+
+
+
+
+
+.card-icon.completed{
+
+    background:#bbf7d0;
+
+}
+
+
+
+
+
+
+
+/* Numbers */
+
+.card h2{
+
+    font-size:34px;
+
+    margin:0;
+
+    color:#14532d;
+
+}
+
+
+
+
+
+.card p{
+
+    color:#64748b;
+
+    margin-top:5px;
+
+    font-size:15px;
+
+}
+
+
+
+
+
+
+
+/* Animation */
+
+@keyframes slideDown{
+
+
+    from{
+
+
+        opacity:0;
+
+        transform:translateY(-20px);
+
+
+    }
+
+
+    to{
+
+
+        opacity:1;
+
+        transform:translateY(0);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* Responsive */
+
+@media(max-width:768px){
+
+
+
+.main-content{
+
+
+    margin-left:80px;
+
+    padding:20px;
+
+
+}
+
+
+
+
+
+.header h1{
+
+
+    font-size:26px;
+
+
+}
+
+
+
+
+
+.cards{
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+}
