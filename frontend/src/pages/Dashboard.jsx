@@ -110,12 +110,12 @@
 
 // export default Dashboard;
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import "../styles/dashboard.css";
 import { getDashboardData } from "../services/dashboardService";
 
 function Dashboard() {
-
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [projectCount, setProjectCount] = useState(0);
@@ -123,180 +123,113 @@ function Dashboard() {
   const [pendingCount, setPendingCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
 
-
   const loadDashboard = async () => {
-
     try {
-
       const data = await getDashboardData();
 
+      setProjectCount(data.projects ? data.projects.length : 0);
+      setTaskCount(data.tasks ? data.tasks.length : 0);
 
-      setProjectCount(data.projects.length);
-
-      setTaskCount(data.tasks.length);
-
-
-      const pending = data.tasks.filter(
-        (task) => task.status === "Pending"
+      const pending = (data.tasks || []).filter(
+        (task) => task.status === "Pending" || task.status === "Todo" || task.status === "In Progress"
       ).length;
 
-
-      const completed = data.tasks.filter(
-        (task) => task.status === "Completed"
+      const completed = (data.tasks || []).filter(
+        (task) => task.status === "Completed" || task.status === "Done"
       ).length;
-
 
       setPendingCount(pending);
-
       setCompletedCount(completed);
-
-
-    } catch(error){
-
+    } catch (error) {
       console.log(error);
-
     }
-
   };
 
-
-  useEffect(()=>{
-
+  useEffect(() => {
     loadDashboard();
+  }, []);
 
-  },[]);
-
-
+  const completionPercentage =
+    taskCount > 0 ? Math.round((completedCount / taskCount) * 100) : 0;
 
   return (
-
     <div className="dashboard">
-
-
       <Sidebar />
 
-
       <div className="main-content">
-
-
         <div className="header">
-
-          <h1>
-            👋 Welcome, {user?.name}
-          </h1>
-
-
-          <p>
-            Manage all your projects and tasks from one powerful workspace.
-          </p>
-
-
+          <div className="header-info">
+            <h1>👋 Welcome back, {user?.name || "User"}!</h1>
+            <p>Manage your projects, track tasks, and stay productive.</p>
+          </div>
+          <div className="header-actions">
+            <Link to="/tasks" className="quick-action-btn primary">
+              ➕ Add Task
+            </Link>
+            <Link to="/projects" className="quick-action-btn secondary">
+              📁 Projects
+            </Link>
+            <Link to="/kanban" className="quick-action-btn outline">
+              📋 Kanban
+            </Link>
+          </div>
         </div>
 
+        {/* Overall Progress Banner */}
+        <div className="progress-banner">
+          <div className="progress-banner-header">
+            <div>
+              <h3>Overall Tasks Completion</h3>
+              <p>{completedCount} of {taskCount} tasks finished</p>
+            </div>
+            <span className="progress-percent">{completionPercentage}%</span>
+          </div>
+          <div className="progress-bar-bg">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${completionPercentage}%` }}
+            ></div>
+          </div>
+        </div>
 
-
+        {/* Stat Cards Grid */}
         <div className="cards">
-
-
-          <div className="card">
-
-            <div className="card-icon">
-              📁
-            </div>
-
+          <Link to="/projects" className="card">
+            <div className="card-icon">📁</div>
             <div>
-
-              <h2>
-                {projectCount}
-              </h2>
-
-              <p>
-                Total Projects
-              </p>
-
+              <h2>{projectCount}</h2>
+              <p>Total Projects</p>
             </div>
+          </Link>
 
-          </div>
-
-
-
-          <div className="card">
-
-            <div className="card-icon">
-              📝
-            </div>
-
+          <Link to="/tasks" className="card">
+            <div className="card-icon">📝</div>
             <div>
-
-              <h2>
-                {taskCount}
-              </h2>
-
-              <p>
-                Total Tasks
-              </p>
-
+              <h2>{taskCount}</h2>
+              <p>Total Tasks</p>
             </div>
+          </Link>
 
-          </div>
-
-
-
-          <div className="card">
-
-            <div className="card-icon pending">
-              ⏳
-            </div>
-
+          <Link to="/tasks" className="card">
+            <div className="card-icon pending">⏳</div>
             <div>
-
-              <h2>
-                {pendingCount}
-              </h2>
-
-              <p>
-                Pending Tasks
-              </p>
-
+              <h2>{pendingCount}</h2>
+              <p>Pending Tasks</p>
             </div>
+          </Link>
 
-          </div>
-
-
-
-          <div className="card">
-
-            <div className="card-icon completed">
-              ✅
-            </div>
-
+          <Link to="/tasks" className="card">
+            <div className="card-icon completed">✅</div>
             <div>
-
-              <h2>
-                {completedCount}
-              </h2>
-
-              <p>
-                Completed Tasks
-              </p>
-
+              <h2>{completedCount}</h2>
+              <p>Completed Tasks</p>
             </div>
-
-          </div>
-
-
-
+          </Link>
         </div>
-
-
       </div>
-
-
     </div>
-
   );
-
 }
 
-
 export default Dashboard;
+

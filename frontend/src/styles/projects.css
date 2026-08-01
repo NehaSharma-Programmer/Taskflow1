@@ -162,17 +162,38 @@
 
 /* Header */
 
-.projects-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:35px;
-
+.projects-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin-top: 4px;
 }
+
+.creator-tag {
+  font-size: 13px;
+  color: #475569;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+  display: inline-block;
+}
+
+.form-card.animated-form {
+  animation: slideDown 0.4s ease;
+}
+
+.form-card h3 {
+  margin-bottom: 18px;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.add-btn.cancel {
+  background: #f1f5f9;
+  color: #64748b;
+  margin-left: 10px;
+}
+
 
 
 

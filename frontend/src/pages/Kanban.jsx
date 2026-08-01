@@ -47,12 +47,15 @@ function Kanban() {
   };
 
   const columns = {
-    Todo: tasks.filter((task) => task.status === "Todo"),
-    "In Progress": tasks.filter(
-      (task) => task.status === "In Progress"
+    Todo: tasks.filter(
+      (task) => task.status === "Todo" || task.status === "Pending"
     ),
-    Done: tasks.filter((task) => task.status === "Done"),
+    "In Progress": tasks.filter((task) => task.status === "In Progress"),
+    Done: tasks.filter(
+      (task) => task.status === "Done" || task.status === "Completed"
+    ),
   };
+
 
   return (
     <div className="kanban-page">
