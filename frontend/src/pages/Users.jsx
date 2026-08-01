@@ -71,53 +71,32 @@ function Users(){
 
 
 
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-            </tr>
-
-          </thead>
-
-
-
-          <tbody>
-
-
-          {
-            users.map((user)=>(
-
-              <tr key={user._id}>
-
-                <td>
-                  {user.name}
-                </td>
-
-
-                <td>
-                  {user.email}
-                </td>
-
-
-                <td>
-                  {user.role}
-                </td>
-
-
+        <div className="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
               </tr>
+            </thead>
 
-            ))
-          }
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    <span className={`role-badge ${user.role}`}>
+                      {user.role}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-
-          </tbody>
-
-
-        </table>
 
 
       </div>

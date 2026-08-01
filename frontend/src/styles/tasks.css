@@ -631,48 +631,47 @@ box-shadow:0 0 10px rgba(37,99,235,.2);
 
 /* Responsive */
 
+@media (max-width: 768px) {
+  .tasks-content {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 64px;
+    padding: 20px 16px;
+  }
 
-@media(max-width:900px){
+  .tasks-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    margin-bottom: 22px;
+  }
 
+  .tasks-header h1 {
+    font-size: 26px;
+  }
 
-.tasks-content{
+  .search-box {
+    width: 100%;
+  }
 
+  .task-form {
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 22px;
+  }
 
-    margin-left:80px;
+  .task-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 
+  .task-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
 
-    width:calc(100% - 80px);
-
-
-    padding:20px;
-
-
+  .task-actions {
+    flex-wrap: wrap;
+  }
 }
 
-
-
-.tasks-header{
-
-
-    flex-direction:column;
-
-
-    gap:20px;
-
-
-    align-items:flex-start;
-
-
-}
-
-
-
-.search-box{
-
-
-    width:100%;
-
-
-}
-
-}

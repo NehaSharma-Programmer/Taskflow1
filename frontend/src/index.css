@@ -316,14 +316,65 @@ select:focus{
 
 
 
-/* Responsive */
-
-@media(max-width:768px){
-
- body{
-
- font-size:14px;
-
- }
-
+/* Responsive Table Styles */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 10px;
+  margin-top: 20px;
+  -webkit-overflow-scrolling: touch;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 500px;
+}
+
+th,
+td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+}
+
+th {
+  font-weight: 700;
+  color: var(--text);
+  background: #f8fafc;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role-badge.admin {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.role-badge.user {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
