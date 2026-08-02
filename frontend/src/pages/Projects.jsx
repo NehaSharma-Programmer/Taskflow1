@@ -1,7 +1,10 @@
-
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FolderKanban, Plus, Search, Edit2, Trash2, LayoutGrid, List, X, User } from "lucide-react";
 import Sidebar from "../components/Sidebar";
+import ConfirmModal from "../components/ConfirmModal";
+import { CardSkeleton } from "../components/SkeletonLoader";
+import { useToast } from "../context/ToastContext";
 import "../styles/projects.css";
 
 import {
@@ -12,34 +15,43 @@ import {
 } from "../services/projectService";
 
 function Projects() {
+  const { showToast } = useToast();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+
   const [projects, setProjects] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [search, setSearch] = useState("");
   const [editId, setEditId] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [viewMode, setViewMode] = useState("grid");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
+  // Confirm Delete State
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const loadProjects = async () => {
+    setIsLoading(true);
     try {
       if (user?.role === "admin") {
         const res = await axios.get(
           "https://taskflowbackend-qhqg.onrender.com/api/admin/projects",
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setProjects(res.data);
+        setProjects(Array.isArray(res.data) ? res.data : []);
       } else {
         const res = await getProjects();
-        setProjects(res.data);
+        setProjects(Array.isArray(res.data) ? res.data : []);
       }
     } catch (error) {
-      console.log("Project Error:", error);
+      console.error("Project Error:", error);
+      showToast("Failed to load projects", "error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,55 +59,64 @@ function Projects() {
     loadProjects();
   }, []);
 
-  const addProject = async () => {
-    if (!title || !description) {
-      alert("Please fill all fields");
+  const handleSaveProject = async (e) => {
+    e.preventDefault();
+    if (!title.trim() || !description.trim()) {
+      showToast("Please fill in all required fields", "error");
       return;
     }
 
     try {
       if (editId) {
-        await updateProject(editId, {
-          title,
-          description,
-        });
-        alert("Project Updated Successfully ✅");
+        await updateProject(editId, { title, description });
+        showToast("Project updated successfully!", "success");
       } else {
-        await createProject({
-          title,
-          description,
-        });
-        alert("Project Added Successfully ✅");
+        await createProject({ title, description });
+        showToast("New project created successfully!", "success");
       }
 
-      setTitle("");
-      setDescription("");
-      setEditId(null);
-      setShowForm(false);
+      closeModal();
       loadProjects();
     } catch (error) {
-      console.log(error);
-      alert("Something went wrong");
+      console.error(error);
+      showToast("Operation failed. Try again.", "error");
     }
   };
 
-  const removeProject = async (id) => {
-    if (window.confirm("Delete this project?")) {
-      await deleteProject(id);
-      loadProjects();
-    }
+  const openCreateModal = () => {
+    setTitle("");
+    setDescription("");
+    setEditId(null);
+    setShowModal(true);
   };
 
-  const editProject = (project) => {
+  const openEditModal = (project) => {
     setTitle(project.title);
     setDescription(project.description);
     setEditId(project._id);
-    setShowForm(true);
+    setShowModal(true);
+  };
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+  const closeModal = () => {
+    setShowModal(false);
+    setTitle("");
+    setDescription("");
+    setEditId(null);
+  };
+
+  const confirmDeleteProject = async () => {
+    if (!deleteTargetId) return;
+    setIsDeleting(true);
+    try {
+      await deleteProject(deleteTargetId);
+      showToast("Project deleted successfully", "success");
+      setDeleteTargetId(null);
+      loadProjects();
+    } catch (err) {
+      showToast("Failed to delete project", "error");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const filteredProjects = projects.filter((project) =>
@@ -103,123 +124,170 @@ function Projects() {
   );
 
   return (
-    <div className="projects-page">
+    <div className="projects-layout">
       <Sidebar />
 
-      <div className="projects-content">
-        <div className="projects-header">
+      <main className="projects-main">
+        {/* Header Bar */}
+        <header className="projects-header-bar">
           <div>
             <h1>📁 Manage Projects</h1>
-            <p className="projects-subtitle">
-              {projects.length} active project{projects.length !== 1 ? "s" : ""}
-            </p>
+            <p className="subtitle">{projects.length} Active Workspace Projects</p>
           </div>
 
-          <div className="header-right-tools">
-            <input
-              className="search-input"
-              type="text"
-              placeholder="🔍 Search Project..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+          <div className="header-actions">
+            <div className="search-box">
+              <Search size={16} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search projects..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            <div className="view-toggle">
+              <button
+                className={viewMode === "grid" ? "active" : ""}
+                onClick={() => setViewMode("grid")}
+                title="Grid view"
+              >
+                <LayoutGrid size={16} />
+              </button>
+              <button
+                className={viewMode === "list" ? "active" : ""}
+                onClick={() => setViewMode("list")}
+                title="List view"
+              >
+                <List size={16} />
+              </button>
+            </div>
 
             {user?.role !== "admin" && (
-              <button
-                className="toggle-form-btn"
-                onClick={() => setShowForm(!showForm)}
-              >
-                {showForm ? "✕ Close Form" : "➕ New Project"}
+              <button className="primary-btn" onClick={openCreateModal}>
+                <Plus size={16} /> Create Project
               </button>
             )}
           </div>
-        </div>
+        </header>
 
-        {/* Form Card */}
-        {user?.role !== "admin" && showForm && (
-          <div className="form-card animated-form">
-            <h3>{editId ? "✏ Edit Project" : "➕ Create New Project"}</h3>
-            <input
-              type="text"
-              placeholder="Project Title *"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+        {/* Loading State */}
+        {isLoading ? (
+          <CardSkeleton count={6} />
+        ) : (
+          /* Project Grid/List View */
+          <div className={`projects-container ${viewMode}`}>
+            {filteredProjects.map((project) => (
+              <div key={project._id} className="project-card">
+                <div className="card-top">
+                  <div className="project-icon-badge">
+                    <FolderKanban size={20} />
+                  </div>
+                  <h3>{project.title}</h3>
+                </div>
 
-            <textarea
-              placeholder="Project Description *"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
+                <p className="project-desc">{project.description}</p>
 
-            <div className="form-actions">
-              <button className="add-btn" onClick={addProject}>
-                {editId ? "💾 Save Changes" : "✨ Create Project"}
-              </button>
-              {editId && (
-                <button
-                  className="add-btn cancel"
-                  onClick={() => {
-                    setTitle("");
-                    setDescription("");
-                    setEditId(null);
-                    setShowForm(false);
-                  }}
-                >
-                  Cancel
+                {user?.role === "admin" && project.user && (
+                  <div className="creator-badge">
+                    <User size={13} /> {project.user.name} ({project.user.email})
+                  </div>
+                )}
+
+                {user?.role !== "admin" && (
+                  <div className="card-actions">
+                    <button
+                      className="icon-btn edit"
+                      onClick={() => openEditModal(project)}
+                      title="Edit project"
+                    >
+                      <Edit2 size={14} /> Edit
+                    </button>
+                    <button
+                      className="icon-btn delete"
+                      onClick={() => setDeleteTargetId(project._id)}
+                      title="Delete project"
+                    >
+                      <Trash2 size={14} /> Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {filteredProjects.length === 0 && (
+              <div className="empty-projects">
+                <FolderKanban size={48} />
+                <h3>No Projects Found</h3>
+                <p>Create a new project or try searching for another term.</p>
+                {user?.role !== "admin" && (
+                  <button className="primary-btn" onClick={openCreateModal}>
+                    <Plus size={16} /> Create First Project
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Create/Edit Modal Dialog */}
+        {showModal && (
+          <div className="modal-overlay" onClick={closeModal}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header-row">
+                <h3>{editId ? "✏ Edit Project" : "✨ Create New Project"}</h3>
+                <button className="close-icon-btn" onClick={closeModal}>
+                  <X size={18} />
                 </button>
-              )}
+              </div>
+
+              <form onSubmit={handleSaveProject} className="modal-form">
+                <div className="form-group">
+                  <label>Project Title *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Mobile App Redesign"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Description *</label>
+                  <textarea
+                    placeholder="Brief details about project goals and deliverables..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={4}
+                    required
+                  />
+                </div>
+
+                <div className="form-actions-row">
+                  <button type="button" className="btn-cancel" onClick={closeModal}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="primary-btn">
+                    {editId ? "Save Changes" : "Create Project"}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
 
-        {/* Project Grid */}
-        <div className="project-grid">
-          {filteredProjects.map((project) => (
-            <div className="project-card" key={project._id}>
-              <div className="project-card-header">
-                <h3>📁 {project.title}</h3>
-              </div>
-
-              <p className="project-desc">{project.description}</p>
-
-              {user?.role === "admin" && project.user && (
-                <p className="creator-tag">
-                  👤 <strong>Created By:</strong> {project.user.name}
-                </p>
-              )}
-
-              {user?.role !== "admin" && (
-                <div className="project-actions">
-                  <button
-                    className="edit-btn"
-                    onClick={() => editProject(project)}
-                    title="Edit project"
-                  >
-                    ✏️ Edit
-                  </button>
-
-                  <button
-                    className="delete-btn"
-                    onClick={() => removeProject(project._id)}
-                    title="Delete project"
-                  >
-                    🗑 Delete
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-
-          {filteredProjects.length === 0 && (
-            <div className="empty-state">
-              <span>📁</span>
-              <h3>No Projects Found</h3>
-              <p>Create your first project or adjust your search filter!</p>
-            </div>
-          )}
-        </div>
-      </div>
+        {/* Confirmation Modal */}
+        <ConfirmModal
+          isOpen={!!deleteTargetId}
+          title="Delete Project"
+          message="Are you sure you want to delete this project? Associated tasks may also be affected."
+          confirmText="Yes, Delete Project"
+          isLoading={isDeleting}
+          onConfirm={confirmDeleteProject}
+          onCancel={() => setDeleteTargetId(null)}
+        />
+      </main>
     </div>
   );
 }
