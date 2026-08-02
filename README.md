@@ -178,24 +178,18 @@ https://taskflow1-five.vercel.app/
 
 <img width="1725" height="850" alt="Screenshot 2026-08-02 140023" src="https://github.com/user-attachments/assets/0004e972-6f21-4e58-ac70-1bbfc781556f" />
 
----
-
 ## Dashboard
 
 <img width="1902" height="875" alt="Screenshot 2026-08-02 140422" src="https://github.com/user-attachments/assets/5f217398-8fee-4036-9426-fa977ffa09a7" />
-
-
-
-
-
-
----
 
 ## Projects
 
 <img width="1887" height="872" alt="Screenshot 2026-08-02 140714" src="https://github.com/user-attachments/assets/48db6c55-8763-445a-8472-7c62168d23eb" />
 
----
+## Tasks
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-02 140819" src="https://github.com/user-attachments/assets/b057bbac-9a71-4a1e-9e5c-fd8b9cc62809" />
+
 
 ## Kanban Board
 
