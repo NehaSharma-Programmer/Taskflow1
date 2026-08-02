@@ -191,12 +191,13 @@ https://taskflow1-five.vercel.app/
 ## Projects
 
 > Add screenshot here
+<img width="1887" height="872" alt="Screenshot 2026-08-02 140714" src="https://github.com/user-attachments/assets/48db6c55-8763-445a-8472-7c62168d23eb" />
 
 ---
 
 ## Kanban Board
 
-> Add screenshot here
+
 
 ![Uploading Screenshot 2026-08-02 140422.png…]()
 
