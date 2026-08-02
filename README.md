@@ -185,6 +185,7 @@ https://taskflow1-five.vercel.app/
 
 
 ## Projects
+<img width="1892" height="876" alt="Screenshot 2026-08-03 002657" src="https://github.com/user-attachments/assets/2e8f6578-b113-48c1-bc1d-43d05dc8e02e" />
 
 
 ## Tasks
