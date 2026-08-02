@@ -170,13 +170,14 @@ https://taskflow1-five.vercel.app/
 ## Login Page
 
 
-<img width="1725" height="850" alt="Screenshot 2026-08-02 140023" src="https://github.com/user-attachments/assets/0004e972-6f21-4e58-ac70-1bbfc781556f" />
----
+
+
 
 ## Register Page
 
+<img width="1767" height="805" alt="Screenshot 2026-08-02 140819" src="https://github.com/user-attachments/assets/597d508e-9936-4c7e-93f9-ec4699170b99" />
 
-<img width="1725" height="850" alt="Screenshot 2026-08-02 140023" src="https://github.com/user-attachments/assets/0004e972-6f21-4e58-ac70-1bbfc781556f" />
+
 
 ## Dashboard
 
