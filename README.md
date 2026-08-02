@@ -195,6 +195,7 @@ https://taskflow1-five.vercel.app/
 
 ## Kanban Board
 
+<img width="1896" height="877" alt="Screenshot 2026-08-03 002958" src="https://github.com/user-attachments/assets/9b88c3d3-860b-4c41-878e-078100f0465d" />
 
 ---
 
