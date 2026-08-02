@@ -182,8 +182,11 @@ https://taskflow1-five.vercel.app/
 
 ## Dashboard
 
-> Add screenshot here
-![Uploading Screenshot 2026-08-02 140422.png…]()
+<img width="1902" height="875" alt="Screenshot 2026-08-02 140422" src="https://github.com/user-attachments/assets/5f217398-8fee-4036-9426-fa977ffa09a7" />
+
+
+
+
 
 
 ---
@@ -199,7 +202,7 @@ https://taskflow1-five.vercel.app/
 
 
 
-![Uploading Screenshot 2026-08-02 140422.png…]()
+
 
 ---
 
