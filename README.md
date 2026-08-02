@@ -176,6 +176,7 @@ https://taskflow1-five.vercel.app/
 ## Register Page
 
 > Add screenshot here
+<img width="1725" height="850" alt="Screenshot 2026-08-02 140023" src="https://github.com/user-attachments/assets/0004e972-6f21-4e58-ac70-1bbfc781556f" />
 
 ---
 
