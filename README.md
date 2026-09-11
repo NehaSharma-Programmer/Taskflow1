@@ -1,4 +1,4 @@
-# 🚀 TaskFlow - Project Management System
+# 🚀 TaskFlow - Project Management Application | QA Assessment
 
 A modern **Task Management & Project Collaboration** web application built using the **MERN Stack**. It helps users organize projects, manage tasks, and collaborate efficiently through an interactive Kanban board.
 
@@ -13,10 +13,60 @@ A modern **Task Management & Project Collaboration** web application built using
 TaskFlow is a full-stack project management application inspired by Trello. Users can create projects, manage tasks using drag-and-drop functionality, assign priorities, track progress, and securely authenticate using JWT.
 
 The application provides a clean, responsive interface and supports role-based authentication for efficient project management.
+A Task Management web application built using the MERN Stack.
 
+This repository is being used for a Software Testing (QA) Assessment.
+The application allows authenticated users to register, login, create,
+view, edit, and delete tasks.
+
+The QA assessment focuses on functional testing, input validation,
+negative testing, edge cases, error handling, authentication,
+authorization, and data integrity.
 ---
 
 # ✨ Features
+## 🧪 QA Testing Scope
+
+The following areas are covered as part of the QA assessment:
+
+### Registration
+- Valid registration
+- Duplicate email validation
+- Required field validation
+- Invalid email validation
+- Password validation
+- Boundary and edge cases
+
+### Login
+- Valid login
+- Invalid credentials
+- Empty field validation
+- Invalid email format
+- Authentication/session handling
+
+### Task Management
+- Create task
+- View task list
+- Edit task
+- Delete task
+- Empty task list
+- Boundary-value testing
+- Special-character testing
+
+### Input Validation & Error Handling
+- Mandatory field validation
+- Invalid input handling
+- Maximum/minimum input limits
+- API/server error handling
+- Database failure handling
+- Duplicate submission handling
+
+### Security & Authorization
+- Protected routes
+- User-specific task access
+- Unauthorized access prevention
+- Session/logout validation
+- Injection and XSS risk assessment
 
 ### 🔐 Authentication
 - User Registration
