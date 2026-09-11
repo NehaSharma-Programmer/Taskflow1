@@ -1,4 +1,4 @@
-# 🚀 TaskFlow - Project Management Application | QA Assessment
+# 🚀 TaskFlow - Task Management Application | QA Assessment
 
 A modern **Task Management & Project Collaboration** web application built using the **MERN Stack**. It helps users organize projects, manage tasks, and collaborate efficiently through an interactive Kanban board.
 
